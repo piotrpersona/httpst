@@ -19,7 +19,7 @@ func Source(sourceBody io.Reader) (data schema.HTTPData) {
 	}
 
 	var latestHTTPCode *schema.HTTPCode
-	var latestHTTPpGroup *schema.HTTPGroup
+	var latestHTTPGroup *schema.HTTPGroup
 	var latestDescription *string
 
 	for {
@@ -34,32 +34,26 @@ func Source(sourceBody io.Reader) (data schema.HTTPData) {
 		if tokenType == html.StartTagToken {
 			switch token := tokenizer.Token(); token.Data {
 			case "h3":
-				tokenizer.Next()
-				tokenizer.Next()
-				sectionNumber := tokenizer.Token().Data
-				tokenizer.Next()
-				tokenizer.Next()
-				sectionTitle := tokenizer.Token().Data
-				sectionTitle = strings.TrimSpace(sectionTitle)
-				numberOfPeriods := strings.Count(sectionNumber, ".")
+				var sectionHeader = Section(tokenizer)
+				var numberOfPeriods = strings.Count(sectionHeader.Number, ".")
 				switch numberOfPeriods {
 				case 1: // group
-					if latestHTTPpGroup != nil {
-						data.Groups = append(data.Groups, *latestHTTPpGroup)
+					if latestHTTPGroup != nil {
+						data.Groups = append(data.Groups, *latestHTTPGroup)
 					}
-					groupTitleSplitted := strings.Split(sectionTitle, " ")
-					groupPrefix := groupTitleSplitted[len(groupTitleSplitted)-1]
-					latestHTTPpGroup = &schema.HTTPGroup{
+					var groupTitleSplitted = strings.Split(sectionHeader.Title, " ")
+					var groupPrefix = groupTitleSplitted[len(groupTitleSplitted)-1]
+					latestHTTPGroup = &schema.HTTPGroup{
 						Prefix:      groupPrefix,
-						Title:       sectionTitle,
+						Title:       sectionHeader.Title,
 						Description: "",
 					}
-					latestDescription = &latestHTTPpGroup.Description
+					latestDescription = &latestHTTPGroup.Description
 				case 2: // status code
 					if latestHTTPCode != nil {
 						data.Codes = append(data.Codes, *latestHTTPCode)
 					}
-					splittedTitle := strings.SplitAfterN(sectionTitle, " ", 2)
+					var splittedTitle = strings.SplitAfterN(sectionHeader.Title, " ", 2)
 					latestHTTPCode = &schema.HTTPCode{
 						Code:        strings.TrimSpace(splittedTitle[0]),
 						Title:       splittedTitle[1],
@@ -69,7 +63,7 @@ func Source(sourceBody io.Reader) (data schema.HTTPData) {
 				}
 			case "p":
 				tokenizer.Next()
-				description := tokenizer.Token().Data
+				var description = tokenizer.Token().Data
 				if latestDescription != nil {
 					*latestDescription += description
 				}
