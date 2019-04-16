@@ -9,16 +9,17 @@ import (
 	"golang.org/x/net/html"
 )
 
-func Source(sourceBody io.Reader) (data schema.HttpData) {
+// Source will parse provided Reader interface and convert it to schema.HTTPData.
+func Source(sourceBody io.Reader) (data schema.HTTPData) {
 	tokenizer := html.NewTokenizer(sourceBody)
 
-	data = schema.HttpData{
-		Groups: []schema.HttpGroup{},
-		Codes:  []schema.HttpCode{},
+	data = schema.HTTPData{
+		Groups: []schema.HTTPGroup{},
+		Codes:  []schema.HTTPCode{},
 	}
 
-	var latestHttpCode *schema.HttpCode
-	var latestHttpGroup *schema.HttpGroup
+	var latestHTTPCode *schema.HTTPCode
+	var latestHTTPpGroup *schema.HTTPGroup
 	var latestDescription *string
 
 	for {
@@ -44,28 +45,28 @@ func Source(sourceBody io.Reader) (data schema.HttpData) {
 				numberOfPeriods := strings.Count(sectionNumber, ".")
 				switch numberOfPeriods {
 				case 1: // group
-					if latestHttpGroup != nil {
-						data.Groups = append(data.Groups, *latestHttpGroup)
+					if latestHTTPpGroup != nil {
+						data.Groups = append(data.Groups, *latestHTTPpGroup)
 					}
 					groupTitleSplitted := strings.Split(sectionTitle, " ")
 					groupPrefix := groupTitleSplitted[len(groupTitleSplitted)-1]
-					latestHttpGroup = &schema.HttpGroup{
+					latestHTTPpGroup = &schema.HTTPGroup{
 						Prefix:      groupPrefix,
 						Title:       sectionTitle,
 						Description: "",
 					}
-					latestDescription = &latestHttpGroup.Description
+					latestDescription = &latestHTTPpGroup.Description
 				case 2: // status code
-					if latestHttpCode != nil {
-						data.Codes = append(data.Codes, *latestHttpCode)
+					if latestHTTPCode != nil {
+						data.Codes = append(data.Codes, *latestHTTPCode)
 					}
 					splittedTitle := strings.SplitAfterN(sectionTitle, " ", 2)
-					latestHttpCode = &schema.HttpCode{
+					latestHTTPCode = &schema.HTTPCode{
 						Code:        strings.TrimSpace(splittedTitle[0]),
 						Title:       splittedTitle[1],
 						Description: "",
 					}
-					latestDescription = &latestHttpCode.Description
+					latestDescription = &latestHTTPCode.Description
 				}
 			case "p":
 				tokenizer.Next()
