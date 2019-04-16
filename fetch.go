@@ -4,6 +4,7 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/piotrpersona/httpst/parse"
 )
@@ -18,7 +19,8 @@ func fetchStatusesSource() io.Reader {
 }
 
 func main() {
-	responseBody := fetchStatusesSource()
-	data := parse.Source(responseBody)
-	data.Dump("http.json")
+	var dataPath = os.Args[1]
+	var responseBody = fetchStatusesSource()
+	var data = parse.Source(responseBody)
+	data.Dump(dataPath)
 }

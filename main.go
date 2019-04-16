@@ -20,7 +20,8 @@ func displayCodeInfo(codes []string, data schema.HTTPData) {
 }
 
 func main() {
-	data := schema.ReadSchema("http.json")
-	codes := os.Args[1:]
+	var dataPath = "/var/lib/httpst/http.json"
+	var data = schema.ReadSchema(dataPath)
+	var codes = os.Args[1:]
 	displayCodeInfo(codes, data)
 }
