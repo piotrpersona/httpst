@@ -32,7 +32,6 @@ func Source(sourceBody io.Reader) (data schema.HTTPData) {
 			log.Fatalf("Malformed HTML")
 		}
 		if tokenType == html.StartTagToken {
-			// var description string
 			switch token := tokenizer.Token(); token.Data {
 			case "h3":
 				tokenizer.Next()
