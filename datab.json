@@ -1,0 +1,226 @@
+{
+    "codes": [
+        {
+            "code": "100",
+            "description": "\n   The client SHOULD continue with its request. This interim response is\n   used to inform the client that the initial part of the request has\n   been received and has not yet been rejected by the server. The client\n   SHOULD continue by sending the remainder of the request or, if the\n   request has already been completed, ignore this response. The server\n   MUST send a final response after the request has been completed. See\n   section ",
+            "title": "Continue"
+        },
+        {
+            "code": "101",
+            "description": "\n   The server understands and is willing to comply with the client's\n   request, via the Upgrade message header field (section 14.42), for a\n   change in the application protocol being used on this connection. The\n   server will switch protocols to those defined by the response's\n   Upgrade header field immediately after the empty line which\n   terminates the 101 response.\n\n   The protocol SHOULD be switched only when it is advantageous to do\n   so. For example, switching to a newer version of HTTP is advantageous\n   over older versions, and switching to a real-time, synchronous\n   protocol might be advantageous when delivering resources that use\n   such features.\n",
+            "title": "Switching Protocols"
+        },
+        {
+            "code": "200",
+            "description": "\n   The request has succeeded. The information returned with the response\n   is dependent on the method used in the request, for example:\n\n   GET    an entity corresponding to the requested resource is sent in\n          the response;\n\n   HEAD   the entity-header fields corresponding to the requested\n          resource are sent in the response without any message-body;\n\n   POST   an entity describing or containing the result of the action;\n\n   TRACE  an entity containing the request message as received by the\n          end server.\n",
+            "title": "OK"
+        },
+        {
+            "code": "201",
+            "description": "\n   The request has been fulfilled and resulted in a new resource being\n   created. The newly created resource can be referenced by the URI(s)\n   returned in the entity of the response, with the most specific URI\n   for the resource given by a Location header field. The response\n   SHOULD include an entity containing a list of resource\n   characteristics and location(s) from which the user or user agent can\n   choose the one most appropriate. The entity format is specified by\n   the media type given in the Content-Type header field. The origin\n   server MUST create the resource before returning the 201 status code.\n   If the action cannot be carried out immediately, the server SHOULD\n   respond with 202 (Accepted) response instead.\n\n   A 201 response MAY contain an ETag response header field indicating\n   the current value of the entity tag for the requested variant just\n   created, see section ",
+            "title": "Created"
+        },
+        {
+            "code": "202",
+            "description": "\n   The request has been accepted for processing, but the processing has\n   not been completed.  The request might or might not eventually be\n   acted upon, as it might be disallowed when processing actually takes\n   place. There is no facility for re-sending a status code from an\n   asynchronous operation such as this.\n\n   The 202 response is intentionally non-committal. Its purpose is to\n   allow a server to accept a request for some other process (perhaps a\n   batch-oriented process that is only run once per day) without\n   requiring that the user agent's connection to the server persist\n   until the process is completed. The entity returned with this\n   response SHOULD include an indication of the request's current status\n   and either a pointer to a status monitor or some estimate of when the\n   user can expect the request to be fulfilled.\n",
+            "title": "Accepted"
+        },
+        {
+            "code": "203",
+            "description": "\n   The returned metainformation in the entity-header is not the\n   definitive set as available from the origin server, but is gathered\n   from a local or a third-party copy. The set presented MAY be a subset\n   or superset of the original version. For example, including local\n   annotation information about the resource might result in a superset\n   of the metainformation known by the origin server. Use of this\n   response code is not required and is only appropriate when the\n   response would otherwise be 200 (OK).\n",
+            "title": "Non-Authoritative Information"
+        },
+        {
+            "code": "204",
+            "description": "\n   The server has fulfilled the request but does not need to return an\n   entity-body, and might want to return updated metainformation. The\n   response MAY include new or updated metainformation in the form of\n   entity-headers, which if present SHOULD be associated with the\n   requested variant.\n\n   If the client is a user agent, it SHOULD NOT change its document view\n   from that which caused the request to be sent. This response is\n   primarily intended to allow input for actions to take place without\n   causing a change to the user agent's active document view, although\n   any new or updated metainformation SHOULD be applied to the document\n   currently in the user agent's active view.\n\n   The 204 response MUST NOT include a message-body, and thus is always\n   terminated by the first empty line after the header fields.\n",
+            "title": "No Content"
+        },
+        {
+            "code": "205",
+            "description": "\n   The server has fulfilled the request and the user agent SHOULD reset\n   the document view which caused the request to be sent. This response\n   is primarily intended to allow input for actions to take place via\n   user input, followed by a clearing of the form in which the input is\n   given so that the user can easily initiate another input action. The\n   response MUST NOT include an entity.\n",
+            "title": "Reset Content"
+        },
+        {
+            "code": "206",
+            "description": "\n   The server has fulfilled the partial GET request for the resource.\n   The request MUST have included a Range header field (section 14.35)\n   indicating the desired range, and MAY have included an If-Range\n   header field (section \n   The response MUST include the following header fields:\n\n   If the 206 response is the result of an If-Range request that used a\n   strong cache validator (see section 13.3.3), the response SHOULD NOT\n   include other entity-headers. If the response is the result of an\n   If-Range request that used a weak validator, the response MUST NOT\n   include other entity-headers; this prevents inconsistencies between\n   cached entity-bodies and updated headers. Otherwise, the response\n   MUST include all of the entity-headers that would have been returned\n   with a 200 (OK) response to the same request.\n\n   A cache MUST NOT combine a 206 response with other previously cached\n   content if the ETag or Last-Modified headers do not match exactly,\n   see \n   A cache that does not support the Range and Content-Range headers\n   MUST NOT cache 206 (Partial) responses.\n",
+            "title": "Partial Content"
+        },
+        {
+            "code": "300",
+            "description": "\n   The requested resource corresponds to any one of a set of\n   representations, each with its own specific location, and agent-\n   driven negotiation information (section 12) is being provided so that\n   the user (or user agent) can select a preferred representation and\n   redirect its request to that location.\n\n   Unless it was a HEAD request, the response SHOULD include an entity\n   containing a list of resource characteristics and location(s) from\n   which the user or user agent can choose the one most appropriate. The\n   entity format is specified by the media type given in the Content-\n   Type header field. Depending upon the format and the capabilities of\n\n   the user agent, selection of the most appropriate choice MAY be\n   performed automatically. However, this specification does not define\n   any standard for such automatic selection.\n\n   If the server has a preferred choice of representation, it SHOULD\n   include the specific URI for that representation in the Location\n   field; user agents MAY use the Location field value for automatic\n   redirection. This response is cacheable unless indicated otherwise.\n",
+            "title": "Multiple Choices"
+        },
+        {
+            "code": "301",
+            "description": "\n   The requested resource has been assigned a new permanent URI and any\n   future references to this resource SHOULD use one of the returned\n   URIs.  Clients with link editing capabilities ought to automatically\n   re-link references to the Request-URI to one or more of the new\n   references returned by the server, where possible. This response is\n   cacheable unless indicated otherwise.\n\n   The new permanent URI SHOULD be given by the Location field in the\n   response. Unless the request method was HEAD, the entity of the\n   response SHOULD contain a short hypertext note with a hyperlink to\n   the new URI(s).\n\n   If the 301 status code is received in response to a request other\n   than GET or HEAD, the user agent MUST NOT automatically redirect the\n   request unless it can be confirmed by the user, since this might\n   change the conditions under which the request was issued.\n",
+            "title": "Moved Permanently"
+        },
+        {
+            "code": "302",
+            "description": "\n   The requested resource resides temporarily under a different URI.\n   Since the redirection might be altered on occasion, the client SHOULD\n   continue to use the Request-URI for future requests.  This response\n   is only cacheable if indicated by a Cache-Control or Expires header\n   field.\n\n   The temporary URI SHOULD be given by the Location field in the\n   response. Unless the request method was HEAD, the entity of the\n   response SHOULD contain a short hypertext note with a hyperlink to\n   the new URI(s).\n\n   If the 302 status code is received in response to a request other\n   than GET or HEAD, the user agent MUST NOT automatically redirect the\n   request unless it can be confirmed by the user, since this might\n   change the conditions under which the request was issued.\n",
+            "title": "Found"
+        },
+        {
+            "code": "303",
+            "description": "\n   The response to the request can be found under a different URI and\n   SHOULD be retrieved using a GET method on that resource. This method\n   exists primarily to allow the output of a POST-activated script to\n   redirect the user agent to a selected resource. The new URI is not a\n   substitute reference for the originally requested resource. The 303\n   response MUST NOT be cached, but the response to the second\n   (redirected) request might be cacheable.\n\n   The different URI SHOULD be given by the Location field in the\n   response. Unless the request method was HEAD, the entity of the\n   response SHOULD contain a short hypertext note with a hyperlink to\n   the new URI(s).\n",
+            "title": "See Other"
+        },
+        {
+            "code": "304",
+            "description": "\n   If the client has performed a conditional GET request and access is\n   allowed, but the document has not been modified, the server SHOULD\n   respond with this status code. The 304 response MUST NOT contain a\n   message-body, and thus is always terminated by the first empty line\n   after the header fields.\n\n   The response MUST include the following header fields:\n\n   If a clockless origin server obeys these rules, and proxies and\n   clients add their own Date to any response received without one (as\n   already specified by [RFC 2068], section \n   If the conditional GET used a strong cache validator (see section\n   13.3.3), the response SHOULD NOT include other entity-headers.\n   Otherwise (i.e., the conditional GET used a weak validator), the\n   response MUST NOT include other entity-headers; this prevents\n   inconsistencies between cached entity-bodies and updated headers.\n\n   If a 304 response indicates an entity not currently cached, then the\n   cache MUST disregard the response and repeat the request without the\n   conditional.\n\n   If a cache uses a received 304 response to update a cache entry, the\n   cache MUST update the entry to reflect any new field values given in\n   the response.\n",
+            "title": "Not Modified"
+        },
+        {
+            "code": "305",
+            "description": "\n   The requested resource MUST be accessed through the proxy given by\n   the Location field. The Location field gives the URI of the proxy.\n   The recipient is expected to repeat this single request via the\n   proxy. 305 responses MUST only be generated by origin servers.\n",
+            "title": "Use Proxy"
+        },
+        {
+            "code": "306",
+            "description": "\n   The 306 status code was used in a previous version of the\n   specification, is no longer used, and the code is reserved.\n",
+            "title": "(Unused)"
+        },
+        {
+            "code": "307",
+            "description": "\n   The requested resource resides temporarily under a different URI.\n   Since the redirection MAY be altered on occasion, the client SHOULD\n   continue to use the Request-URI for future requests.  This response\n   is only cacheable if indicated by a Cache-Control or Expires header\n   field.\n\n   The temporary URI SHOULD be given by the Location field in the\n   response. Unless the request method was HEAD, the entity of the\n   response SHOULD contain a short hypertext note with a hyperlink to\n   the new URI(s) , since many pre-HTTP/1.1 user agents do not\n   understand the 307 status. Therefore, the note SHOULD contain the\n   information necessary for a user to repeat the original request on\n   the new URI.\n\n   If the 307 status code is received in response to a request other\n   than GET or HEAD, the user agent MUST NOT automatically redirect the\n   request unless it can be confirmed by the user, since this might\n   change the conditions under which the request was issued.\n",
+            "title": "Temporary Redirect"
+        },
+        {
+            "code": "400",
+            "description": "\n   The request could not be understood by the server due to malformed\n   syntax. The client SHOULD NOT repeat the request without\n   modifications.\n",
+            "title": "Bad Request"
+        },
+        {
+            "code": "401",
+            "description": "\n   The request requires user authentication. The response MUST include a\n   WWW-Authenticate header field (section 14.47) containing a challenge\n   applicable to the requested resource. The client MAY repeat the\n   request with a suitable Authorization header field (section ",
+            "title": "Unauthorized"
+        },
+        {
+            "code": "402",
+            "description": "\n   This code is reserved for future use.\n",
+            "title": "Payment Required"
+        },
+        {
+            "code": "403",
+            "description": "\n   The server understood the request, but is refusing to fulfill it.\n   Authorization will not help and the request SHOULD NOT be repeated.\n   If the request method was not HEAD and the server wishes to make\n   public why the request has not been fulfilled, it SHOULD describe the\n   reason for the refusal in the entity.  If the server does not wish to\n   make this information available to the client, the status code 404\n   (Not Found) can be used instead.\n",
+            "title": "Forbidden"
+        },
+        {
+            "code": "404",
+            "description": "\n   The server has not found anything matching the Request-URI. No\n   indication is given of whether the condition is temporary or\n   permanent. The 410 (Gone) status code SHOULD be used if the server\n   knows, through some internally configurable mechanism, that an old\n   resource is permanently unavailable and has no forwarding address.\n   This status code is commonly used when the server does not wish to\n   reveal exactly why the request has been refused, or when no other\n   response is applicable.\n",
+            "title": "Not Found"
+        },
+        {
+            "code": "405",
+            "description": "\n   The method specified in the Request-Line is not allowed for the\n   resource identified by the Request-URI. The response MUST include an\n   Allow header containing a list of valid methods for the requested\n   resource.\n",
+            "title": "Method Not Allowed"
+        },
+        {
+            "code": "406",
+            "description": "\n   The resource identified by the request is only capable of generating\n   response entities which have content characteristics not acceptable\n   according to the accept headers sent in the request.\n\n   Unless it was a HEAD request, the response SHOULD include an entity\n   containing a list of available entity characteristics and location(s)\n   from which the user or user agent can choose the one most\n   appropriate. The entity format is specified by the media type given\n   in the Content-Type header field. Depending upon the format and the\n   capabilities of the user agent, selection of the most appropriate\n   choice MAY be performed automatically. However, this specification\n   does not define any standard for such automatic selection.\n\n   If the response could be unacceptable, a user agent SHOULD\n   temporarily stop receipt of more data and query the user for a\n   decision on further actions.\n",
+            "title": "Not Acceptable"
+        },
+        {
+            "code": "407",
+            "description": "\n   This code is similar to 401 (Unauthorized), but indicates that the\n   client must first authenticate itself with the proxy. The proxy MUST\n   return a Proxy-Authenticate header field (section ",
+            "title": "Proxy Authentication Required"
+        },
+        {
+            "code": "408",
+            "description": "\n   The client did not produce a request within the time that the server\n   was prepared to wait. The client MAY repeat the request without\n   modifications at any later time.\n",
+            "title": "Request Timeout"
+        },
+        {
+            "code": "409",
+            "description": "\n   The request could not be completed due to a conflict with the current\n   state of the resource. This code is only allowed in situations where\n   it is expected that the user might be able to resolve the conflict\n   and resubmit the request. The response body SHOULD include enough\n\n   information for the user to recognize the source of the conflict.\n   Ideally, the response entity would include enough information for the\n   user or user agent to fix the problem; however, that might not be\n   possible and is not required.\n\n   Conflicts are most likely to occur in response to a PUT request. For\n   example, if versioning were being used and the entity being PUT\n   included changes to a resource which conflict with those made by an\n   earlier (third-party) request, the server might use the 409 response\n   to indicate that it can't complete the request. In this case, the\n   response entity would likely contain a list of the differences\n   between the two versions in a format defined by the response\n   Content-Type.\n",
+            "title": "Conflict"
+        },
+        {
+            "code": "410",
+            "description": "\n   The requested resource is no longer available at the server and no\n   forwarding address is known. This condition is expected to be\n   considered permanent. Clients with link editing capabilities SHOULD\n   delete references to the Request-URI after user approval. If the\n   server does not know, or has no facility to determine, whether or not\n   the condition is permanent, the status code 404 (Not Found) SHOULD be\n   used instead. This response is cacheable unless indicated otherwise.\n\n   The 410 response is primarily intended to assist the task of web\n   maintenance by notifying the recipient that the resource is\n   intentionally unavailable and that the server owners desire that\n   remote links to that resource be removed. Such an event is common for\n   limited-time, promotional services and for resources belonging to\n   individuals no longer working at the server's site. It is not\n   necessary to mark all permanently unavailable resources as \"gone\" or\n   to keep the mark for any length of time -- that is left to the\n   discretion of the server owner.\n",
+            "title": "Gone"
+        },
+        {
+            "code": "411",
+            "description": "\n   The server refuses to accept the request without a defined Content-\n   Length. The client MAY repeat the request if it adds a valid\n   Content-Length header field containing the length of the message-body\n   in the request message.\n",
+            "title": "Length Required"
+        },
+        {
+            "code": "412",
+            "description": "\n   The precondition given in one or more of the request-header fields\n   evaluated to false when it was tested on the server. This response\n   code allows the client to place preconditions on the current resource\n   metainformation (header field data) and thus prevent the requested\n   method from being applied to a resource other than the one intended.\n",
+            "title": "Precondition Failed"
+        },
+        {
+            "code": "413",
+            "description": "\n   The server is refusing to process a request because the request\n   entity is larger than the server is willing or able to process. The\n   server MAY close the connection to prevent the client from continuing\n   the request.\n\n   If the condition is temporary, the server SHOULD include a Retry-\n   After header field to indicate that it is temporary and after what\n   time the client MAY try again.\n",
+            "title": "Request Entity Too Large"
+        },
+        {
+            "code": "414",
+            "description": "\n   The server is refusing to service the request because the Request-URI\n   is longer than the server is willing to interpret. This rare\n   condition is only likely to occur when a client has improperly\n   converted a POST request to a GET request with long query\n   information, when the client has descended into a URI \"black hole\" of\n   redirection (e.g., a redirected URI prefix that points to a suffix of\n   itself), or when the server is under attack by a client attempting to\n   exploit security holes present in some servers using fixed-length\n   buffers for reading or manipulating the Request-URI.\n",
+            "title": "Request-URI Too Long"
+        },
+        {
+            "code": "415",
+            "description": "\n   The server is refusing to service the request because the entity of\n   the request is in a format not supported by the requested resource\n   for the requested method.\n",
+            "title": "Unsupported Media Type"
+        },
+        {
+            "code": "416",
+            "description": "\n   A server SHOULD return a response with this status code if a request\n   included a Range request-header field (section 14.35), and none of\n   the range-specifier values in this field overlap the current extent\n   of the selected resource, and the request did not include an If-Range\n   request-header field. (For byte-ranges, this means that the first-\n   byte-pos of all of the byte-range-spec values were greater than the\n   current length of the selected resource.)\n\n   When this status code is returned for a byte-range request, the\n   response SHOULD include a Content-Range entity-header field\n   specifying the current length of the selected resource (see section\n   ",
+            "title": "Requested Range Not Satisfiable"
+        },
+        {
+            "code": "417",
+            "description": "\n   The expectation given in an Expect request-header field (see section\n   14.20) could not be met by this server, or, if the server is a proxy,\n   the server has unambiguous evidence that the request could not be met\n   by the next-hop server.\n",
+            "title": "Expectation Failed"
+        },
+        {
+            "code": "500",
+            "description": "\n   The server encountered an unexpected condition which prevented it\n   from fulfilling the request.\n",
+            "title": "Internal Server Error"
+        },
+        {
+            "code": "501",
+            "description": "\n   The server does not support the functionality required to fulfill the\n   request. This is the appropriate response when the server does not\n   recognize the request method and is not capable of supporting it for\n   any resource.\n",
+            "title": "Not Implemented"
+        },
+        {
+            "code": "502",
+            "description": "\n   The server, while acting as a gateway or proxy, received an invalid\n   response from the upstream server it accessed in attempting to\n   fulfill the request.\n",
+            "title": "Bad Gateway"
+        },
+        {
+            "code": "503",
+            "description": "\n   The server is currently unable to handle the request due to a\n   temporary overloading or maintenance of the server. The implication\n   is that this is a temporary condition which will be alleviated after\n   some delay. If known, the length of the delay MAY be indicated in a\n   Retry-After header. If no Retry-After is given, the client SHOULD\n   handle the response as it would for a 500 response.\n",
+            "title": "Service Unavailable"
+        },
+        {
+            "code": "504",
+            "description": "\n   The server, while acting as a gateway or proxy, did not receive a\n   timely response from the upstream server specified by the URI (e.g.\n   HTTP, FTP, LDAP) or some other auxiliary server (e.g. DNS) it needed\n   to access in attempting to complete the request.\n",
+            "title": "Gateway Timeout"
+        }
+    ],
+    "groups": [
+        {
+            "description": "\n   This class of status code indicates a provisional response,\n   consisting only of the Status-Line and optional headers, and is\n   terminated by an empty line. There are no required headers for this\n   class of status code. Since HTTP/1.0 did not define any 1xx status\n   codes, servers MUST NOT send a 1xx response to an HTTP/1.0 client\n   except under experimental conditions.\n\n   A client MUST be prepared to accept one or more 1xx status responses\n   prior to a regular response, even if the client does not expect a 100\n   (Continue) status message. Unexpected 1xx status responses MAY be\n   ignored by a user agent.\n\n   Proxies MUST forward 1xx responses, unless the connection between the\n   proxy and its client has been closed, or unless the proxy itself\n   requested the generation of the 1xx response. (For example, if a\n\n   proxy adds a \"Expect: 100-continue\" field when it forwards a request,\n   then it need not forward the corresponding 100 (Continue)\n   response(s).)\n",
+            "prefix": "1xx",
+            "title": "Informational 1xx"
+        },
+        {
+            "description": "\n   This class of status code indicates that the client's request was\n   successfully received, understood, and accepted.\n",
+            "prefix": "2xx",
+            "title": "Successful 2xx"
+        },
+        {
+            "description": "\n   This class of status code indicates that further action needs to be\n   taken by the user agent in order to fulfill the request.  The action\n   required MAY be carried out by the user agent without interaction\n   with the user if and only if the method used in the second request is\n   GET or HEAD. A client SHOULD detect infinite redirection loops, since\n   such loops generate network traffic for each redirection.\n",
+            "prefix": "3xx",
+            "title": "Redirection 3xx"
+        },
+        {
+            "description": "\n   The 4xx class of status code is intended for cases in which the\n   client seems to have erred. Except when responding to a HEAD request,\n   the server SHOULD include an entity containing an explanation of the\n   error situation, and whether it is a temporary or permanent\n   condition. These status codes are applicable to any request method.\n   User agents SHOULD display any included entity to the user.\n\n   If the client is sending data, a server implementation using TCP\n   SHOULD be careful to ensure that the client acknowledges receipt of\n   the packet(s) containing the response, before the server closes the\n   input connection. If the client continues sending data to the server\n   after the close, the server's TCP stack will send a reset packet to\n   the client, which may erase the client's unacknowledged input buffers\n   before they can be read and interpreted by the HTTP application.\n",
+            "prefix": "4xx",
+            "title": "Client Error 4xx"
+        }
+    ]
+}
