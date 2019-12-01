@@ -49,6 +49,8 @@ func buildRootCmd() (rootCmd *cobra.Command) {
 	flags.BoolVarP(&group, "group", "g", false, "Display code group")
 	flags.BoolVarP(&long, "long", "l", false, "Display long description")
 
+	rootCmd.AddCommand(versionCmd())
+
 	return
 }
 
